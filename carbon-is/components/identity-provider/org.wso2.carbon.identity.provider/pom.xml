@@ -204,34 +204,6 @@
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Import-Package>
-                            org.osgi.framework.*;version="${osgi.framework.package.import.version.range}",
-                            org.slf4j.*;version="${slf4j.logging.package.import.version.range}",
-                            org.wso2.carbon.context.api.*;version="${org.wso2.carbon.context.import.version.range}",
-                            org.yaml.snakeyaml.*;version="${org.snakeyaml.package.import.version.range}",
-                            javax.sql.*,
-                            javax.naming.*,
-                            javax.xml.*,
-                            javax.cache.*,
-                            org.osgi.service.component.annotations.*;version="${org.osgi.service.component.annotations.version.range}",
-                            net.minidev.asm.*;version="${asm.package.version.range}",
-                            org.wso2.carbon.kernel.*,
-                            org.wso2.carbon.messaging.*,
-                            org.wso2.carbon.caching.*
-                        </Import-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-scr-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 

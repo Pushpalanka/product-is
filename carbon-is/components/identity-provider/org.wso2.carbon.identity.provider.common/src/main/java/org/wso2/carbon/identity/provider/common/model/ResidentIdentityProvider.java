@@ -23,6 +23,8 @@ package org.wso2.carbon.identity.provider.common.model;
  */
 public class ResidentIdentityProvider extends IdentityProvider {
 
+    private static final long serialVersionUID = -3629889383509390673L;
+
     protected ResidentIdentityProvider(MetaIdentityProvider metaIdentityProvider) {
         super(metaIdentityProvider);
     }

@@ -24,7 +24,8 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Interface for the user profile related functionality
+ * Interface for the user profile related functionality. This allows the users to manage own user profiles, self signup,
+ * and authenticate.
  */
 public interface UserProfileClientService {
 

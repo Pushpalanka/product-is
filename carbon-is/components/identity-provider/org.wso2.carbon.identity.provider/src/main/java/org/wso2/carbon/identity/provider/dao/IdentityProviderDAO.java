@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.idp.mgt.dao;
+package org.wso2.carbon.identity.provider.dao;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
