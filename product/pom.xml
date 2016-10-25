@@ -129,19 +129,6 @@
             <type>zip</type>
         </dependency>
 
-        <dependency>
-            <groupId>org.wso2.carbon.deployment</groupId>
-            <artifactId>org.wso2.carbon.deployment.engine.feature</artifactId>
-            <version>${carbon.deployment.version}</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.deployment</groupId>
-            <artifactId>org.wso2.carbon.deployment.notifier.feature</artifactId>
-            <version>${carbon.deployment.version}</version>
-            <type>zip</type>
-        </dependency>
-
         <!-- Sample Simple Authentication Component -->
 
         <dependency>
