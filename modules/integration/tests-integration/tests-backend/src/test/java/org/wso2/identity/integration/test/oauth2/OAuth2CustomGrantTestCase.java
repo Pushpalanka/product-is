@@ -34,8 +34,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.identity.oauth.stub.dto.OAuthConsumerAppDTO;
-import org.wso2.carbon.identity.oauth2.stub.OAuth2TokenValidationService;
 import org.wso2.carbon.identity.oauth2.stub.dto.OAuth2TokenValidationRequestDTO;
 import org.wso2.carbon.identity.oauth2.stub.dto.OAuth2TokenValidationResponseDTO;
 import org.wso2.carbon.integration.common.admin.client.AuthenticatorClient;
@@ -43,27 +43,22 @@ import org.wso2.carbon.integration.common.utils.FileManager;
 import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.identity.integration.common.clients.oauth.Oauth2TokenValidationClient;
-import org.wso2.identity.integration.common.clients.usermgt.remote.RemoteUserStoreManagerServiceClient;
 import org.wso2.identity.integration.test.util.Utils;
-import org.wso2.identity.integration.test.utils.DataExtractUtil;
 import org.wso2.identity.integration.test.utils.OAuth2Constant;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.xml.xpath.XPathExpressionException;
-
-import static org.wso2.identity.integration.test.utils.DataExtractUtil.KeyValue;
 
 public class OAuth2CustomGrantTestCase extends OAuth2ServiceAbstractIntegrationTest {
 	private AuthenticatorClient logManger;
 	private ServerConfigurationManager serverConfigurationManager;
     private String resourcePath = getISResourceLocation() + File.separator + "oauth" + File.separator + "mobile-grant"
             + File.separator;
+    private String targetPath =
+            FrameworkPathUtil.getTargetDirectory() + File.separator + "test-classes" + File.separator + "samples"
+                    + File.separator;
     private static final String TOKEN_API_ENDPOINT = "https://localhost:9853/oauth2/token";
     private Oauth2TokenValidationClient oauth2TokenValidationClient;
 	private String adminUsername;
@@ -76,11 +71,19 @@ public class OAuth2CustomGrantTestCase extends OAuth2ServiceAbstractIntegrationT
 
 	@BeforeClass(alwaysRun = true)
 	public void testInit() throws Exception {
-
         super.init(TestUserMode.SUPER_TENANT_USER);
-        oauth2TokenValidationClient = new Oauth2TokenValidationClient(backendURL, sessionCookie);
         // Apply file based configurations
         applyConfigurationsToIS();
+        serverConfigurationManager.restartForcefully();
+        super.init(TestUserMode.SUPER_TENANT_USER);
+        logManger = new AuthenticatorClient(backendURL);
+        adminUsername = userInfo.getUserName();
+        adminPassword = userInfo.getPassword();
+        logManger.login(isServer.getSuperTenant().getTenantAdmin().getUserName(),
+                isServer.getSuperTenant().getTenantAdmin().getPassword(),
+                isServer.getInstance().getHosts().get("default"));
+        client = new DefaultHttpClient();
+        oauth2TokenValidationClient = new Oauth2TokenValidationClient(backendURL, sessionCookie);
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -157,8 +160,8 @@ public class OAuth2CustomGrantTestCase extends OAuth2ServiceAbstractIntegrationT
                 + "repository" + File.separator + "conf" + File.separator + "identity" + File.separator
                 + "identity.xml");
 
-		copyToLib(new File(resourcePath + "custom-grant-5.4.0-SNAPSHOT.jar"));
-		serverConfigurationManager.applyConfiguration(identityXMLFile, defaultIdentityXml, true, true);
+		copyToLib(new File(targetPath + "custom-grant.jar"));
+		serverConfigurationManager.applyConfigurationWithoutRestart(identityXMLFile, defaultIdentityXml, true);
 	}
 
     protected void copyToLib(File sourceFile) throws IOException {
